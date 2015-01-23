@@ -1,0 +1,23 @@
+{
+  "name": "svg-rectangulizer",
+  "version": "1.0.0",
+  "description": "Command line utility for converting SVG paths to rectangles",
+  "main": "svg-rectangulizer.js",
+  "dependencies": {
+    "xml2js": "^0.4.*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mondalaci/svg-rectangulizer.git"
+  },
+  "author": "Laszlo Monda",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/mondalaci/svg-rectangulizer/issues"
+  },
+  "homepage": "https://github.com/mondalaci/svg-rectangulizer"
+}
