@@ -43,7 +43,7 @@ fs.readFile(filenameToConvert, function(err, svg) {
 function pathSegmentsToRect(pathSegments) {
     var xMin=Infinity, xMax=-Infinity;
     var yMin=Infinity, yMax=-Infinity;
-    var xCurrent, yCurrent;
+    var xCurrent=0, yCurrent=0;
 
     pathStringToPathSegments(pathSegments).forEach(function(pathSegment) {
         var pathCommand = pathSegment[0];
@@ -70,10 +70,10 @@ function pathSegmentsToRect(pathSegments) {
 
 
         if (x !== undefined) {
-            xCurrent = isAbsolute ? x : x+(xCurrent || 0);
+            xCurrent = isAbsolute ? x : x+xCurrent;
         }
         if (y !== undefined) {
-            yCurrent = isAbsolute ? y : y+(yCurrent || 0);
+            yCurrent = isAbsolute ? y : y+yCurrent;
         }
 
         xMin = Math.min(xMin, xCurrent);
