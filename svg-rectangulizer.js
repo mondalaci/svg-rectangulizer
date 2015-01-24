@@ -25,7 +25,6 @@ fs.readFile(filenameToConvert, function(err, svg) {
             }
         });
         var modifiedJsDom2 = traverse(modifiedJsDom).map(function(item) {
-//            console.log('path');
             if (item.path) {
                 item.rect = item.path;
                 delete item.path;
@@ -33,9 +32,6 @@ fs.readFile(filenameToConvert, function(err, svg) {
             }
         });
         var modifiedXml = new xml2js.Builder().buildObject(modifiedJsDom2);
-//        console.log(util.inspect(modifiedJsDom2, false, null));
-//        console.log(util.inspect(jsDom, false, null));
-//        console.log(util.inspect(modifiedXml, false, null));
         console.log(modifiedXml);
     });
 });
