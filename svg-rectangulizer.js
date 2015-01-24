@@ -49,8 +49,6 @@ function pathSegmentsToRect(pathSegments) {
         var pathCommand = pathSegment[0];
         var x=undefined, y=undefined;
 
-        var isAbsolute = pathCommand.toUpperCase() === pathCommand;
-
         switch (pathCommand.toLowerCase()) {
             case 'm':
                 x = pathSegment[1];
@@ -68,7 +66,7 @@ function pathSegmentsToRect(pathSegments) {
                 break;
         }
 
-
+        var isAbsolute = pathCommand.toUpperCase() === pathCommand;
         if (x !== undefined) {
             xCurrent = isAbsolute ? x : x+xCurrent;
         }
