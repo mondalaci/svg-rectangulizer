@@ -19,20 +19,20 @@ var filenameToConvert = args[0];
 var parser = new xml2js.Parser();
 fs.readFile(filenameToConvert, function(err, svg) {
     parser.parseString(svg, function (err, jsDom) {
-        var modifiedJsDom = traverse(jsDom).map(function(item) {
+        jsDom = traverse(jsDom).map(function(item) {
             if (this.key === 'd') {
                 this.parent.update(pathSegmentsToRect(item));
             }
         });
-        var modifiedJsDom2 = traverse(modifiedJsDom).map(function(item) {
+        jsDom = traverse(jsDom).map(function(item) {
             if (item.path) {
                 item.rect = item.path;
                 delete item.path;
                 this.update(item);
             }
         });
-        var modifiedXml = new xml2js.Builder().buildObject(modifiedJsDom2);
-        console.log(modifiedXml);
+        var svg = new xml2js.Builder().buildObject(jsDom);
+        console.log(svg);
     });
 });
 
