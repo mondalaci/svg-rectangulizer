@@ -43,7 +43,7 @@ function pathSegmentsToRect(pathSegments) {
 
     pathStringToPathSegments(pathSegments).forEach(function(pathSegment) {
         var pathCommand = pathSegment[0];
-        var x=undefined, y=undefined;
+        var x, y;
 
         switch (pathCommand.toLowerCase()) {
             case 'm':
