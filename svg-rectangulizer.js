@@ -43,11 +43,13 @@ fs.readFile(filenameToConvert, function(err, svg) {
 function pathSegmentsToRect(pathSegments) {
     var xMin=Infinity, xMax=-Infinity;
     var yMin=Infinity, yMax=-Infinity;
+    var xCurrent, yCurrent;
 
     pathStringToPathSegments(pathSegments).forEach(function(pathSegment) {
         var pathCommand = pathSegment[0];
-        var xCurrent=0, yCurrent=0;
-        var x=0, y=0;
+        var x=undefined, y=undefined;
+
+        var isAbsolute = pathCommand.toUpperCase() === pathCommand;
 
         switch (pathCommand.toLowerCase()) {
             case 'm':
@@ -66,15 +68,18 @@ function pathSegmentsToRect(pathSegments) {
                 break;
         }
 
-        var isRelative = pathCommand.toLowerCase() === pathCommand;
 
-        xCurrent = isRelative ? x+xCurrent : x;
-        yCurrent = isRelative ? y+yCurrent : y;
+        if (x !== undefined) {
+            xCurrent = isAbsolute ? x : x+(xCurrent || 0);
+        }
+        if (y !== undefined) {
+            yCurrent = isAbsolute ? y : y+(yCurrent || 0);
+        }
 
-        yMin = Math.min(yMin, yCurrent);
         xMin = Math.min(xMin, xCurrent);
-        yMax = Math.max(yMax, yCurrent);
+        yMin = Math.min(yMin, yCurrent);
         xMax = Math.max(xMax, xCurrent);
+        yMax = Math.max(yMax, yCurrent);
     });
 
     return {x:xMin, y:yMin, width:xMax-xMin, height:yMax-yMin};
@@ -83,8 +88,8 @@ function pathSegmentsToRect(pathSegments) {
 function pathStringToPathSegments(pathString) {
     return pathString.split(/(?=[a-zA-Z])/g).map(function(pathSegmentString) {  // Split path string by path commands.
         return pathSegmentString
-            .replace(/([a-zA-Z])/g, '$1 ')  // Leave space after path commands.
-            .replace(/-/g, ' -')            // Put a space before minus characters.
+            .replace(/([a-zA-Z])/g, '$1 ')  // Put space after path commands.
+            .replace(/-/g, ' -')            // Put space before minus characters.
             .replace(/[\s]+/g, ' ')         // Compress whitespaces.
             .replace(/^\s+|\s+$/g, '')      // Trim.
             .split(' ').map(function(pathValue) {
